@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>스크롤 레이아웃(원페이지)</title>
+    <style>
+      *{margin:0px; padding:0px;}
+      ol,ul,li{list-style: none;}
+      a{color:#333; text-decoration: none;}
+      body{
+        font-family: "맑은 고딕", arial, sans-serif;
+        font-size: 12px;
+        color:#333;
+      }
+      #modal02{width: 100%; height: 100%;
+  position: fixed; top:0px; left:0px;
+background-color: rgba(0,0,0,.8);
+display: none;
+z-index: 10000;}
+
+    #popup{position: absolute;
+      top:40%; left:40%;
+      background-color: #fff;
+      width:300px; height:300px;
+       }
+      
+      #popup a{margin: 0px auto; text-align: center;
+      display: block; width: 80px; height:25px;
+    font-size: 18px;
+  font-weight: bold;
+  line-height: 25px;
+border-radius: 20px;
+border: 1px solid #ccc;}
+
+      #popup p{line-height: 30px;
+      width:200px;
+      margin: 40px auto;
+      font-size: 16px;
+      font-weight: bold;}
+
+
+
+
+
+      /* 모달서식 */
+    .modal{
+      width:100%;height:100%;
+      position:fixed;top:0px;left:0px;
+      text-align:center;
+      background-color:rgba(0,0,0,0.8);
+      z-index:1000;
+    }
+    .modal img{
+      padding-top:40px;
+      width:50%;
+    }
+    .modal a{
+      position:absolute;
+      right:100px;top:100px;
+      font-size:20px;
+      background-color:#fff;
+      padding:6px 10px;
+    }
+     </style> 
+     <!-- 스와이퍼 슬라이드 서식 -->
+    <link href="./css/swiper.css" rel="stylesheet" type="text/css">
+    <!--layout css서식-->
+    <link href="./css/layout.css" rel="stylesheet" type="text/css">
+     <!-- 스와이퍼 슬라이드 스크립트 소스 -->
+     <script src="./script/swiper.js"></script>
+
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script>
+  $(document).ready(function(){
+
+
+
+    $('#modal02').show();
+ 
+ $('#popup a').click(function(){
+ 
+ $('#modal02').fadeOut();
+ 
+});
+
+
+
+
+
+
+
+    let n = $('.gnb > ul > li').index();
+    console.log(n); //0
+
+    let gnb = $('.gnb > ul > li');
+
+    
+    gnb.click(function(){ //메인 메뉴를 클릭하면
+
+      n = $(this).index(); //해당인덱스 값을 구하여 출력한다.
+      console.log(n); //0,1,2,3,4
+//인덱스 번호에 해당하는 section을 화면 위로 올린다.
+      $('html, body').animate({scrollTop:$('main section').eq(n).offset().top},500);
+    
+      return false; //새로고침 방지
+    });
+
+    let n2 = $('.s01>article>ul>li').index()+1;
+    console.log(n2);
+   
+    let s1 = $('.s01>article>ul>li')
+
+    s1.click(function(){
+      n2 = $(this).index()+1;
+     console.log(n2);
+     if (n2==1){
+       $('.brand01').show();
+       $('.content01').show();
+       $('.brand02').hide();
+       $('.content02').hide();
+       $('.brand03').hide();
+       $('.content03').hide();
+     }if(n2==2){
+      $('.brand02').show();
+       $('.content02').show();
+       $('.brand01').hide();
+       $('.content01').hide();
+       $('.brand03').hide();
+       $('.content03').hide();
+
+     }if(n2==3){
+      $('.brand03').show();
+       $('.content03').show();
+       $('.brand02').hide();
+       $('.content02').hide();
+       $('.brand01').hide();
+       $('.content01').hide();
+     }
+    });
+$('.s02>article>ul>li:first-child').click(function(){
+  $('.s02>article>.winter').show();
+  $('.s02>article>.summer').hide();
+});
+$('.s02>article>ul>li:last-child').click(function(){
+  $('.s02>article>.summer').show();
+  $('.s02>article>.winter').hide();
+});
+
+$('.s03>article>ul>li:first-child').click(function(){
+  $('.s03>article>.winter02').show();
+  $('.s03>article>.summer02').hide();
+});
+$('.s03>article>ul>li:last-child').click(function(){
+  $('.s03>article>.summer02').show();
+  $('.s03>article>.winter02').hide();
+});
+
+
+//이미지를 클릭하면 해당 이미지의 src값을 가져와서 body의 맨뒤쪽에 태그를 추가하여 모달창을 띄운다.
+      //append
+
+      const img = $('.s05 > article > ul> li img');
+      
+      img.click(function(){
+        let imgUrl = $(this).attr('src');
+        console.log(imgUrl); //출력해본다.
+
+        let modal = "<div class='modal'><img src='"+imgUrl+"'><a href='#' title=''>Close</a></div>";
+
+        $('body').append(modal); //모달을 띄우고
+      
+        //닫기를 클릭시 모달을 숨기기
+        $('.modal a').click(function(){
+          $('.modal').fadeOut();
+          return false;
+        });
+        return false;
+      });
+
+
+
+
+  });
+
+</script>  
+
+</head>
+<body>
+  <header>
+    
+    <h1>
+      <a href="index.html" title="상단로고"><img src="./images/logo.png" alt=""></a>
+    </h1>
+    <nav class="gnb">
+      <ul>
+        <li><a href="#" title="">브랜드소개</a></li>
+        <li><a href="#" title="">남학생</a></li>
+        <li><a href="#" title="">여학생</a></li>
+        <li><a href="#" title="">구매후기게시판</a></li>
+        <li><a href="#" title="">갤러리</a></li>
+      </ul> 
+    </nav>
+  </header>
+<!--콘텐츠 영역-->
+  <main>
+    
+    <article class="slide">
+      <div class="swiper-container main_slide">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide"><img src="./images/main01.png" alt=""></div>
+          <div class="swiper-slide"><img src="./images/main02.jpg" alt=""></div>
+          <div class="swiper-slide"><img src="./images/main03.png" alt=""></div>
+         </div>
+
+        <div class="swiper-pagination"></div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+      </div>
+    </article>
+
+    <section class="s01">
+      <article>
+    <p>브랜드소개</p>
+    <ul>
+      <li>소재</li>
+      <li>기능</li>
+      <li>서비스</li>
+    </ul>
+    <div class="brand01"><img src="./images/goodquality.png" alt="">
+    <span>-메리노울:부드러운 촉감과 탱탱한 탄력성<br>
+      -캐시미어가공:기모된 털을 한쪽 방향으로 정리하여 차별화된 가공<br>
+      -니트:16게이지 원사를 고밀도 가공하여 높은 내구성과 더 부드러운 터치감구현 </span>
+    </div>
+    <div class="content01"><img src="./images/goodquality (2).png" alt="">
+    <span>정전기 분산, 방지 효과에<br> 탁월한 도전사 함유로 활동은 편하고 <br>스판 소재 안감을 사용해 착용감까지 굿   </span>
+    </div>
+
+    <div class="brand02"><img src="./images/comfortable.png" alt="">
+      <span>최대 5cm까지 숨겨진 소매가 쑥!<br>
+        집에서도 쉽게 수선가능한 엘리트만의 특허기술로<br>
+         숨겨진 소매가 최대 5cm까지 늘어나는 기술</span>
+      </div>
+      <div class="content02"><img src="./images/comfortable (1).png" alt="">
+      <span>좌우로만 움직이는 조절기는 잊어라!<br>허리조절기에 단추를 접목하여 더 쉽고~엣지있게<br>사이즈 조절 가능</span>
+      </div>
+
+      <div class="brand03"><img src="./images/cont1.png" alt="">
+        </div>
+        <div class="content03"><img src="./images/cont1 - 복사본.png" alt="">
+        </div>
+
+
+
+  </article>
+
+    </section>
+
+
+    <section class="s02">
+      <article>
+        <p>남학생</p>
+      <div class="winter">
+        <p>리얼스판</p>
+        <span>국내최초! 교복 전품목에 스판덱스원사를 사용해 처음 입은 상태를 유지하는 복원력과 뛰어난 신축성으로 어떤 활동도 자유롭고 편안하게 해주는 교복 최적의 원단</span>
+        <a href="#" title="자세히보기">자세히보기</a>
+      </div>
+
+      <div class="summer">
+        <p>쿨맥스</p>
+        <span>업계 유일!<br> 수분조절+통기성=편안함<br>일상생활에서 시원하고 부드러우면서도 쾌적함을 주는 인비스타 쿨맥스를 독점으로 적용!<br><br> <strong>흡한 속건기능<br>쾌적한 체온관리<br>보송보송 뛰어난 착용감</strong> </span>
+        <a href="#" title="자세히보기">자세히보기</a>
+      </div>
+
+      <ul>
+        <li><img src="./images/man.png" alt=""><p>동복</p></li>
+        <li><img src="./images/man01.png" alt=""><p>하복</p></li>
+      </ul>
+
+      </article>
+    </section>
+
+    <section class="s03">
+      <article>
+        <p>여학생</p>
+      <div class="winter02">
+        <p>정전기방지 스판안감</p>
+        <span>전 제품에 스판 소재 안감을 사용해 착용감이 우수하며 정전기 분산 및 방지 효과에 탁월한 '도전사'가 함유되어 교복 원단의 기준을 높였다!</span>
+        <a href="#" title="자세히보기">자세히보기</a>
+      </div>
+
+      <div class="summer02">
+        <p>더블메쉬</p>
+        <span>뛰어난 통기성의 등판 쿨패치와 2겹으로 업그레이드된 겨드랑이 땀패드로 땀 흡수력을 높여 쾌적함 UP! </span>
+        <a href="#" title="자세히보기">자세히보기</a>
+      </div>
+
+      <ul>
+        <li><img src="./images/girl.png" alt=""><p>동복</p></li>
+        <li><img src="./images/girl01.png" alt=""><p>하복</p></li>
+      </ul>
+
+      </article>
+    
+    </section>
+    <section class="s04">
+      <article>
+<p>구매후기게시판</p>
+
+<div class="first">
+  <div class="first01">
+<p>구매자이름:girlstudent**</p>
+<p>구매상품 : 여자 고등학교 학생복</p>
+<p>상품만족도:★★★★☆</p>
+<p>구매후기:특징은 소매부분 주름처리로 여성적이고, 타이틀 단추에 바로 박아놓았구요. 딱 칫수를 맞게 구매한 편인데 배부분이 살짝 뚱 해보이네요~ 그래도 단추는 예뻐요. 전체적으로 만족합니다.</p>
+</div>
+<div class="first02">
+<img src="./images/judge.jpg" alt="">
+<a href="#" title="후기상세보기">후기상세보기</a>
+</div>
+</div>
+
+<div class="second">
+  <div class="second01">
+    <p>구매자이름:boymom**</p>
+    <p>구매상품 : 남자 중학교 학생복</p>
+    <p>상품만족도:★★★★★</p>
+    <p>구매후기: 옷이 예쁘고 잘 맞아요. 아이가 좋아해요. 허리조절도 되고 이 가격에 매우 만족해요. 동절기에 입을 수 있는 두께로 적당한 것 같아요. 일찍 매장에 가니 손님도 없어서 이것저것 꼼꼼이 따져보고 구매하니까 더 좋더라구요^^</p>
+    </div>
+    <div class="second02">
+    <img src="./images/judge02.jpg" alt="">
+    <a href="#" title="후기상세보기">후기상세보기</a>
+    </div>
+
+</div>
+
+      </article>
+    </section>
+    <section class="s05">
+      <article>
+        <p>갤러리</p>
+        <ul>
+        <li><a href=""><img src="./images/sub4_7_img_1.jpg" alt=""></a></li>
+        <li><a href=""><img src="./images/sub4_7_img_2.jpg" alt=""></a></li>
+        <li><a href=""><img src="./images/sub4_7_img_3.jpg" alt=""></a></li>
+        <li><a href=""><img src="./images/sub4_7_img_4.jpg" alt=""></a></li>
+        <li><a href=""><img src="./images/sub4_7_img_5.jpg" alt=""></a></li>
+        <li><a href=""><img src="./images/sub4_7_img_6.jpg" alt=""></a></li>
+        <li><a href=""><img src="./images/1 (3).jpg" alt=""></a></li>
+        <li><a href=""><img src="./images/2 (2).jpg" alt=""></a></li>
+        <li><a href=""><img src="./images/18.jpg" alt=""></a></li>
+        <li><a href=""><img src="./images/19.jpg" alt=""></a></li>
+        <li><a href=""><img src="./images/12.jpg" alt=""></a></li>
+        <li><a href=""><img src="./images/20.jpg" alt=""></a></li>
+        </ul>
+
+       
+      </article>
+    </section>
+  </main> 
+
+
+  <!--푸터영역-->
+<footer>
+  <div class="ft01">
+<ul>
+  <li><a href="#"> 이용약관</a></li>
+  <li><a href="#"> 개인정보처리방침</a></li>
+  <li><a href="#"> 브랜드 제휴</a></li>
+  <li><a href="#"> 대리점 개설</a></li>
+  <li><a href="#"> 1:1문의</a></li>
+</ul>
+<p>(주)형지엘리트</p>
+<p>인천광역시 연수구 송도 과학로 16번길 13-25,9층(송도동173-1)</p>
+<p>사업자등록번호:105-86-39463 대표 : 최병오</p>
+<p>Tel:032-454-8431 Fax:032-454-8499 E-mail:webmaster@hyunhgi-elite.com</p>
+<p>COPYRIGHT ⓒ2018 HYUNGJI ELITE ALL RIGHT RESERVED.</p>
+<div class="sns"> 
+<a href="https://www.hyungji.co.kr/"><img src="./images/footLogo1.png" alt=""></a>
+<a href="https://www.hyungji-elite.com/"><img src="./images/footLogo2.png" alt=""></a>
+</div>
+</div>
+
+</footer>
+
+<div id="modal02">
+  <div id="popup">
+  <p>이 사이트는 스터디 사이트입니다. <br><br>일부 내용 및 이미지 등은 출처가 따로 있음을 밝힙니다.</p>
+  <a href="#" title="닫기">닫기</a>
+</div>
+</div>
+
+
+
+<script>
+  var swiper = new Swiper(".main_slide", {
+      autoplay: {
+        delay: 4000,
+        disableOnInteraction: false,
+      },
+      navigation: {
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev",
+      },
+      pagination: {
+        el: ".swiper-pagination",
+      },
+    });
+
+</script>
+</body>
+</html>
